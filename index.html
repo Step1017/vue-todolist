@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vue To Do List</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+            integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+
+        <div id="app" class="container">
+
+            <div class="logo">
+                <img src="./img/logo.png" alt="">
+            </div>
+
+            <!-- 
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    addTodo();
+                });
+            -->
+
+            <div class="new-task">
+                <!-- Prevengo lo scatenarsi dell'evento submit -->
+                <form action="" @submit.prevent="addTodo()">
+                    <!-- Usiamo il v-model -->
+                    <input type="text" v-model="newTodo" required minlength="4" placeholder="Nuova task">
+                    <button>
+                        Aggiungi
+                    </button>
+                </form>
+
+                <!-- <input type="text" v-model="newTodo" placeholder="Nuova task">
+                <button @click="addTodo()">
+                    Aggiungi
+                </button> -->
+            </div>
+
+            <div class="tasks-container">                
+                <ul>
+                    <!-- Innanzitutto utilizziamo il v-for per dinamicizzare la lista-->
+                    <!-- Dopodiché utilizziamo l'operatore ternario:
+                    Q=> condizione da verificare
+                    X=> cosa succede nel caso in cui la condizione sia vera
+                    Y=> cosa succede nel caso in cui la condizione dia falsa -->
+                    <!-- Bonus 2 dal click in poi -->
+                    <li class="task" v-for="(singleTodo, index) in todos" @click="singleTodo.done = !singleTodo.done">
+
+                    <span v-bind:class="singleTodo.done ? 'todo-done' : ''">
+                        {{ singleTodo.text }}
+                    </span>
+
+                    <!-- Richiamo la funzione che al click rimuove l'elemento, 
+                        per farlo aggiungiamo un argomento alla funzione creata e con
+                        .stop fermiamo la propagazione verso l'alto del click 
+                        altrimenti modifichiamo anche il valore assegnato al padre, in questo caso ''done''' -->
+                        <i class="fas fa-times" @click.stop="removeTodo(index)"></i>
+                    </li>
+                </ul>
+                <h2 v-show="todos.length == 0">                
+                    Super produttivo! Hai completato tutti i task
+                </h2>                
+            </div>
+            
+        </div>
+
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
+    </body>
+
+</html>
